@@ -47,6 +47,11 @@
             <% end %>
           </td>
         </tr>
+        <th>Reply</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
         <% @book.book_comments.each do |book_comment| %>
         <tr>
           <td>
@@ -62,6 +67,7 @@
         </tr>
         <% end %>
       </table>
+      <p>Add Reply</p>
       <div class="form-group">
         <%= form_with model: [@book, @book_comment] do |f| %>
           <%= f.text_area :comment, rows: '5', class: 'form-control book_body' %>
