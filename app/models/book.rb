@@ -11,5 +11,16 @@ class Book < ApplicationRecord
 
   def current_page
   end
+  
+  def self.looks(search, word)
+    if search == "perfect_match"
+      #Book=self、selfが含まれるメソッドはクラス（全体を呼び出す）メソッド
+      @book = Book.where("title LIKE?","#{word}")
+    elsif search == "partial_match"
+      @book = self.where("title LIKE?","%#{word}%")
+    else
+      @book = Book.all
+    end
+  end
 
 end
