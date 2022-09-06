@@ -1,0 +1,9 @@
+$("#comments_area").html("<%= j(render 'book_comments/book_comments', book: @book, book_comment: @comment) %>");
+
+$("textarea").val('');
+
+$(".error").html("<%= j(render 'layouts/errors', obj: @comment) %>");
+
+$(".notice").html("<%=j flash[:notice] %>");
+
+$(".alert").html("<%=j(render 'layouts/flash') %>");

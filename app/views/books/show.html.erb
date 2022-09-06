@@ -18,20 +18,8 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
-          <td>
-            <% if @book.favorited_by?(current_user) %>
-              <%= link_to book_favorites_path(@book), method: :delete do %>
-                <div class="unlike-btn">
-                  <i class="fas fa-heart"></i><%= @book.favorites.count %>
-                </div>
-              <% end %>
-            <% else %>
-              <%= link_to book_favorites_path(@book), method: :post do %>
-                <div class="like-btn">
-                  <i class="far fa-heart" ></i><%= @book.favorites.count %> 
-                </div>
-              <% end %>
-            <% end %>
+          <td id="favorite_buttons_<%= @book.id %>">
+            <%= render 'favorites/favorite-btn', book: @book %>
           </td>
           <td>
             <p>コメント数：<%= @book.book_comments.count %></p>
@@ -47,33 +35,21 @@
             <% end %>
           </td>
         </tr>
-        <th>Reply</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <% @book.book_comments.each do |book_comment| %>
         <tr>
-          <td>
-            <%= image_tag book_comment.user.get_profile_image, size:'100x100' %><br>
-            <%= book_comment.user.name %>
-          </td>
-          <td><%= book_comment.comment %></td>
-          <td>
-            <% if book_comment.user == current_user %>
-              <%= link_to "Destroy", book_book_comment_path(book_comment.book,book_comment), method: :delete, class: "btn btn-sm btn-danger" %>
-            <% end %>
-          </td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
-        <% end %>
       </table>
-      <p>Add Reply</p>
-      <div class="form-group">
-        <%= form_with model: [@book, @book_comment] do |f| %>
-          <%= f.text_area :comment, rows: '5', class: 'form-control book_body' %>
-          <%= f.submit "送信" %>
-        <% end %>
+      <div id="comments_area">
+        <%= render 'book_comments/book_comments', book: @book %>
       </div>
+      <div class="notice"><%= flash[:notice] %></div>
+      <div class="alert">
+        <%= render 'layouts/flash' %>
+      </div>
+      <div class="error"><%= render 'layouts/errors', obj: @comment %></div>
+      <%= render 'book_comments/form', book: @book, book_comment: @comment %>
     </div>
   </div>
 </div>
