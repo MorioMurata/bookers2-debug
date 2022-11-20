@@ -1,0 +1,39 @@
+<div class="left-button">
+  <%= link_to "usersへ", users_path, class:"edit-link" %>
+</div>
+<%# talk_friend = @entries.find_by(id: @entries.where.not(user_id: current_user.id).pluck(:id)).user %>
+<% talk_friend = @entries.find_by("user_id != #{current_user.id}").user %>
+<%= image_tag talk_friend.get_profile_image, size: '50x50' %>
+<%= link_to user_path(talk_friend) do %>
+  <%= talk_friend.name %>
+<% end %>
+<span>さんとのメッセージ</span>
+
+<hr>
+<div class="messages">
+  <div class="message">
+    <% if @messages.present? %>
+      <% @messages.each do |m| %>
+        <div class="message-box">
+          <div class="message-face">
+            <%= image_tag m.user.get_profile_image, size: '50x50' %>
+            <%= m.user.name %>
+          </div>
+          <div class="message-hukidashi">
+            <strong>
+              <%= m.body %>
+            </strong><br>
+            <%= m.created_at.strftime("%Y-%m-%d %H:%M")%>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="posts">
+    <%= form_with model: @message do |f| %>
+      <%= f.text_field :body, placeholder: "メッセージを入力して下さい" , size: 70, class:"form-text-field" %>
+        <%= f.hidden_field :room_id, value: @room.id %>
+          <%= f.submit "投稿",class: 'form-submit'%>
+    <% end %>
+  </div>
+</div>
