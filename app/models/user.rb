@@ -10,6 +10,8 @@ class User < ApplicationRecord
   
   # いいね多い順に表示
   has_many :favorited_books, through: :favorites, source: :book
+  # 閲覧数
+  has_many :view_counts, dependent: :destroy
   
   has_many :book_comments, dependent: :destroy
 

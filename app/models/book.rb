@@ -4,10 +4,13 @@ class Book < ApplicationRecord
   
   # いいね多い順に表示
   has_many :favorited_users, through: :favorites, source: :user
+  # 閲覧数
+  has_many :view_counts, dependent: :destroy
   
   has_many :book_comments, dependent: :destroy
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
+  
 
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)

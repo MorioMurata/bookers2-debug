@@ -33,6 +33,22 @@
           <%=link_to "フォローする", user_relationships_path(user.id), method: :post, class: "btn btn-primary" %>
         <% end %>
       </th>
+      <th>
+        <% if current_user.followed_by?(user) && user.followed_by?(current_user) %>
+          <% if is_room == true %>
+            <%= link_to "メッセージへ", room_path(room_id) %>
+          <% else %>
+            <%= form_with model: room do |f| %>
+              <%= fields_for entry do |e| %>
+                <%= e.hidden_field :user_id, value: user.id %>
+              <% end %>
+              <%= f.submit "メッセージを始める", class:"btn btn-primary btn-lg user-show-message" %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <p>相互フォローではありません</p>
+        <% end %>
+      </th>
     <% end %>
   </tr>
 </table>
